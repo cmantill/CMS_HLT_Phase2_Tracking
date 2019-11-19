@@ -7,6 +7,7 @@
 
 Version 2) Release generated script with new paths plugged in
 ############
+
 step3_RAW2DIGI_RECO_VALIDATION_DQM.py 
 
 needs:
@@ -23,6 +24,7 @@ needs:
 
 Version 2) Release generated script with new paths plugged in
 ############
+
 step3_RAW2DIGI_RECO_VALIDATION_DQM_MC.py 
 
 needs:
@@ -43,6 +45,7 @@ needs:
 
 Version 1) Cleaned up from the release generated script
 ###########
+
 step3_performance_modular.py 			#performance studies
 needs:
 
@@ -54,6 +57,7 @@ needs:
 - MC_Dqmoffline_step_v0_cff.py / MC_Dqmoffline_step_v1_cff.py / MC_Dqmoffline_step_v2_cff.py
 
 ############
+
 step3_timing_modular.py 			#timing studies
 
 needs:
@@ -68,6 +72,7 @@ needs:
 
 Version 2) Release generated script with new paths plugged in
 ############
+
 step3_RAW2DIGI_RECO_VALIDATION_DQM.py
 
 needs:
