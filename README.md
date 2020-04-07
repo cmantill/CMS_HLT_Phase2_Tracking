@@ -10,7 +10,7 @@ needs:
 - step2.root
 - raw2digi_step_cff.py
 - MC_Tracking_v2_cff.py / MC_Tracking_v4_cff.py / MC_Tracking_v6_cff.py
-- MC_prevalidation_cff.py
+- MC_prevalidation_cff.py / MC_prevalidation_v6_cff.py
 - MC_Dqmoffline_cff.py
 
 
