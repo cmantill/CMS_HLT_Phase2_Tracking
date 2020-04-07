@@ -179,7 +179,7 @@ hltPhase2PixelVertices = cms.EDProducer( "PixelVertexProducer",
 )
 
 hltPhase2TrimmedPixelVertices = cms.EDProducer( "PixelVertexCollectionTrimmer",
-    src = cms.InputTag( "hltPixelVertices" ),
+    src = cms.InputTag( "hltPhase2PixelVertices" ),
     fractionSumPt2 = cms.double( 0.3 ),
     minSumPt2 = cms.double( 0.0 ),
     PVcomparer = cms.PSet(  refToPSet_ = cms.string( "hltPhase2PSetPvClusterComparerForIT" ) ),
