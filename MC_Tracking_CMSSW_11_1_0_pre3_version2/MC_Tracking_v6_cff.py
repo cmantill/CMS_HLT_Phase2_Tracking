@@ -1431,21 +1431,6 @@ hltPhase2InitialStepTracks = cms.EDProducer("TrackProducer",
 
 ############# ordered setup
 
-ecalUncalibRecHitSequence = cms.Sequence(
-    bunchSpacingProducer +
-    ecalMultiFitUncalibRecHit +
-    ecalDetIdToBeRecovered
-)
-
-caloLocalReco = cms.Sequence(
-    hbhereco +
-    hfprereco + 
-    hfreco + #uses hfprereco
-    horeco +
-    ecalUncalibRecHitSequence +
-    ecalRecHit
-)
-
 itLocalReco = cms.Sequence(
     siPhase2Clusters + 
     siPixelClusters + 
@@ -1507,6 +1492,21 @@ hltPhase2HighPtTripletStepSequence = cms.Sequence(
     hltPhase2HighPtTripletStepTrackSelectionHighPurity
 )
 
+ecalUncalibRecHitSequence = cms.Sequence(
+    bunchSpacingProducer +
+    ecalMultiFitUncalibRecHit +
+    ecalDetIdToBeRecovered
+)
+
+caloLocalReco = cms.Sequence(
+    hbhereco +
+    hfprereco + 
+    hfreco + #uses hfprereco
+    horeco +
+    ecalUncalibRecHitSequence +
+    ecalRecHit
+)
+
 vertexReco = cms.Sequence(
     hltPhase2InitialStepPVSequence + # pixelVertices moved to here, for now still keeping it
     hltPhase2Ak4CaloJetsForTrk + # uses caloTowerForTrk
@@ -1525,7 +1525,7 @@ MC_Tracking_v6 = cms.Path(
     itLocalReco +
     offlineBeamSpot + #cmssw_10_6
     otLocalReco +
-    caloLocalReco +
+    #caloLocalReco +
     trackerClusterCheck + 
     hltPhase2PixelTracksSequence + # pixeltracks
     hltPhase2PixelVerticesSequence + # pixelvertices
@@ -1537,6 +1537,7 @@ MC_Tracking_v6 = cms.Path(
 )
 
 MC_Vertexing_v6 = cms.Path(
+    caloLocalReco +
     vertexReco
 )
 
