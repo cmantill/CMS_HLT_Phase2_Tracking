@@ -800,36 +800,36 @@ highPtTripletStepSelector = cms.EDProducer("MultiTrackSelector",
 hltPhase2HighPtTripletStepTrackCutClassifier = cms.EDProducer( "TrackCutClassifier",
     src = cms.InputTag( "hltPhase2HighPtTripletStepTracks" ),
     beamspot = cms.InputTag( "offlineBeamSpot" ),
-    vertices = cms.InputTag( "hltPhase2PixelVertices"), # pixelVertices previous hltPhase2FirstStepPrimaryVertices" ),
+    vertices = cms.InputTag( "hltPhase2PixelVertices" ), # pixelVertices previous hltPhase2FirstStepPrimaryVertices" ),
     qualityCuts = cms.vdouble( -0.7, 0.1, 0.7 ),
     mva = cms.PSet( 
-      minPixelHits = cms.vint32( 0, 0, 3 ), ##  
-      maxDzWrtBS = cms.vdouble(3.40282346639E38, 24.0, 15.0),
+      minPixelHits = cms.vint32( 0, 0, 3 ), ##
+      maxDzWrtBS = cms.vdouble( 3.40282346639E38, 24.0, 15.0 ),
       dr_par = cms.PSet( 
         d0err = cms.vdouble( 0.003, 0.003, 0.003 ),
-        dr_par2 = cms.vdouble( 0.6, 0.5, 0.45),
-        dr_par1 = cms.vdouble( 0.7, 0.6, 0.6),
+        dr_par2 = cms.vdouble( 0.6, 0.5, 0.45 ), ##
+        dr_par1 = cms.vdouble( 0.7, 0.6, 0.6 ), 
         dr_exp = cms.vint32( 4, 4, 4 ), 
         d0err_par = cms.vdouble( 0.002, 0.002, 0.001 )
       ),
-      maxLostLayers = cms.vint32( 3, 2, 2 ), 
-      min3DLayers = cms.vint32( 3, 3, 4 ), 
+      maxLostLayers = cms.vint32( 3, 3, 2 ),
+      min3DLayers = cms.vint32( 3, 3, 4 ),
       dz_par = cms.PSet( 
-        dz_par1 = cms.vdouble(0.8, 0.7, 0.7 ),
-        dz_par2 = cms.vdouble(0.6, 0.6, 0.55 ),
+        dz_par1 = cms.vdouble( 0.8, 0.7, 0.7 ),
+        dz_par2 = cms.vdouble( 0.6, 0.6, 0.55 ),
         dz_exp = cms.vint32( 4, 4, 4 )
       ),
-      minNVtxTrk = cms.int32( 3 ), ## offline 2, online 3 ## SWITCHING TO 3
-      maxDz = cms.vdouble( 0.5, 0.2, 3.40282346639E38),
-      minNdof = cms.vdouble( 1.0E-5, 1.0E-5, 1.0E-5 ), 
-      maxChi2 = cms.vdouble( 3.40282346639E38, 3.40282346639E38, 3.40282346639E38),
-      maxChi2n = cms.vdouble( 2.0, 1.0, 0.8), 
-      maxDr = cms.vdouble( 0.5, 0.03, 3.40282346639E38),
+      minNVtxTrk = cms.int32( 3 ), ## offline 2, online 3 switching to 3
+      maxDz = cms.vdouble( 0.5, 0.2, 3.40282346639E38 ), ##
+      minNdof = cms.vdouble( 1.0E-5, 1.0E-5, 1.0E-5 ), ##
+      maxChi2 = cms.vdouble( 9999.0, 9999.0, 9999.0 ), 
+      maxChi2n = cms.vdouble( 2.0, 1.0, 0.8 ),
+      maxDr = cms.vdouble( 0.5, 0.03, 3.40282346639E38 ), ##
       minLayers = cms.vint32( 3, 3, 4 )
-    
     ),
-    ignoreVertices = cms.bool( False ) 
+    ignoreVertices = cms.bool( False )
 )
+
 
 hltPhase2HighPtTripletStepTrackSelectionHighPurity = cms.EDProducer( "TrackCollectionFilterCloner",
     minQuality = cms.string( "highPurity" ),
@@ -1251,32 +1251,32 @@ initialStepSelector = cms.EDProducer("MultiTrackSelector",
 hltPhase2InitialStepTrackCutClassifier = cms.EDProducer( "TrackCutClassifier",
     src = cms.InputTag( "hltPhase2InitialStepTracks" ),
     beamspot = cms.InputTag( "offlineBeamSpot" ),
-    vertices = cms.InputTag( "hltPhase2PixelVertices"), # pixelVertices previous hltPhase2FirstStepPrimaryVertices" ), 
+    vertices = cms.InputTag( "hltPhase2PixelVertices" ), # pixelVertices previous hltPhase2FirstStepPrimaryVertices" ),
     qualityCuts = cms.vdouble( -0.7, 0.1, 0.7 ),
     mva = cms.PSet( 
-	minPixelHits = cms.vint32(0,0,3),
-	maxDzWrtBS = cms.vdouble(3.40282346639E38, 24.0, 15.0),
+	minPixelHits = cms.vint32(0,0,3), ######
+	maxDzWrtBS = cms.vdouble( 3.40282346639E38, 24.0, 15.0 ), 
 	dr_par = cms.PSet( 
 	  d0err = cms.vdouble( 0.003, 0.003, 0.003 ),
-	  dr_par1 = cms.vdouble( 0.8, 0.7, 0.6),
-	  dr_par2 = cms.vdouble(  0.6,0.5, 0.45),
+	  dr_par1 = cms.vdouble( 0.8, 0.7, 0.6 ),  
+	  dr_par2 = cms.vdouble( 0.6, 0.5, 0.45 ), 
 	  dr_exp = cms.vint32( 4, 4, 4 ),
 	  d0err_par = cms.vdouble( 0.001, 0.001, 0.001 )
 	),
-	maxLostLayers = cms.vint32( 3,2,2 ), 
-	min3DLayers = cms.vint32( 3, 3, 4), 
+	maxLostLayers = cms.vint32( 3, 2, 2 ),
+	min3DLayers = cms.vint32( 3, 3, 3),
 	dz_par = cms.PSet( 
 	  dz_par1 = cms.vdouble( 0.9, 0.8, 0.7 ), 
 	  dz_par2 = cms.vdouble( 0.8, 0.7, 0.55 ), 
 	  dz_exp = cms.vint32( 4, 4, 4 )
 	),
-	minNVtxTrk = cms.int32( 3 ), # offline 2, online 3  ## SWITCHING TO 3
-	maxDz = cms.vdouble( 0.5, 0.2, 3.40282346639E38),
-	minNdof = cms.vdouble( 1.0E-5, 1.0E-5, 1.0E-5 ), 
-	maxChi2 = cms.vdouble(9999.0, 9999.0, 9999.0),
+	minNVtxTrk = cms.int32( 3 ), # offline 2, online 3 switching to 3
+	maxDz = cms.vdouble( 0.5, 0.2, 3.40282346639E38 ), ##
+	minNdof = cms.vdouble( 1.0E-5, 1.0E-5, 1.0E-5 ), ##
+	maxChi2 = cms.vdouble( 9999.0, 25.0, 16.0 ), 
 	maxChi2n = cms.vdouble( 2.0, 1.4, 1.2), 
-	maxDr = cms.vdouble( 0.5, 0.03, 3.40282346639E38  ), 
-	minLayers = cms.vint32( 3, 3, 3 )  
+	maxDr = cms.vdouble( 0.5, 0.03, 3.40282346639E38 ), ##
+	minLayers = cms.vint32( 3, 3, 3 ) ##
     ),
     ignoreVertices = cms.bool( False ) 
 )
@@ -1540,4 +1540,3 @@ MC_Vertexing_v6 = cms.Path(
     caloLocalReco +
     vertexReco
 )
-
