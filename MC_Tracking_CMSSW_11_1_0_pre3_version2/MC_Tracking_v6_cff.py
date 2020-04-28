@@ -1467,10 +1467,10 @@ hltPhase2InitialStepPVSequence = cms.Sequence(
 
 
 hltPhase2InitialStepSequence = cms.Sequence(
-    #hltPhase2InitialStepSeedLayers + 
-    #hltPhase2InitialStepTrackingRegions + 
-    #hltPhase2InitialStepHitDoublets + 
-    #hltPhase2InitialStepHitQuadruplets + 
+    hltPhase2InitialStepSeedLayers + 
+    hltPhase2InitialStepTrackingRegions + 
+    hltPhase2InitialStepHitDoublets + 
+    hltPhase2InitialStepHitQuadruplets + 
     hltPhase2InitialStepSeeds + 
     hltPhase2InitialStepTrackCandidates + 
     hltPhase2InitialStepTracks +
