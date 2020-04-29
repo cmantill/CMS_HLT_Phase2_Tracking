@@ -1624,6 +1624,73 @@ L1TrackStepTrajectoryBuilder = cms.PSet(
     useSameTrajFilter = cms.bool(False)
 )
 
+L1TrackRegionalStepTrajectoryFilter = cms.PSet(
+    ComponentType = cms.string('CkfBaseTrajectoryFilter'),
+    minimumNumberOfHits = cms.int32(2),
+    seedPairPenalty = cms.int32(0),
+    chargeSignificance = cms.double(-1.0),
+    minPt = cms.double(0.9),
+    nSigmaMinPt = cms.double(5.0),
+    minHitsMinPt = cms.int32(3),
+    maxLostHits = cms.int32(999),
+    maxConsecLostHits = cms.int32(2),
+    maxNumberOfHits = cms.int32(100),
+
+    maxLostHitsFraction = cms.double(1.1),
+    constantValueForLostHitsFractionFilter = cms.double(2.),
+
+    seedExtension = cms.int32(0),
+    strictSeedExtension = cms.bool(False),
+    pixelSeedExtension = cms.bool(False),
+
+    minNumberOfHitsForLoopers           = cms.int32(13),
+    minNumberOfHitsPerLoop              = cms.int32(4),
+    extraNumberOfHitsBeforeTheFirstLoop = cms.int32(4),
+
+    maxCCCLostHits = cms.int32(9999),
+    minGoodStripCharge = cms.PSet(
+        refToPSet_ = cms.string('SiStripClusterChargeCutNone')
+    ),
+)
+
+# as in
+# https://github.com/vberta/cmssw/blob/CMSSW_10_5_0_pre2_trackjet_DeepCore/RecoTracker/IterativeTracking/python/JetCoreRegionalStep_cff.py#L120
+L1TrackRegionalStepTrajectoryBuilder =  cms.PSet(
+    ComponentType = cms.string('GroupedCkfTrajectoryBuilder'),
+    bestHitOnly = cms.bool(True),
+    propagatorAlong = cms.string('PropagatorWithMaterial'),
+    propagatorOpposite = cms.string('PropagatorWithMaterialOpposite'),
+    trajectoryFilter = cms.PSet(refToPSet_ = cms.string('L1TrackRegionalStepTrajectoryFilter')),
+    inOutTrajectoryFilter = cms.PSet(refToPSet_ = cms.string('CkfBaseTrajectoryFilter_block')),
+    # If true, then the inOutTrajectoryFilter will be ignored
+    # and the trajectoryFilter will be used for in-out tracking too.
+    useSameTrajFilter = cms.bool(True),
+    # Maximum number of track candidates followed at each step of
+    # track building
+    maxCand = cms.int32(50),
+    intermediateCleaning = cms.bool(True),
+    # Chi2 added to track candidate if no hit found in layer                                                                                                                      
+    lostHitPenalty = cms.double(30.0),
+    foundHitBonus = cms.double(10.0),
+    MeasurementTrackerName = cms.string(''),
+    lockHits = cms.bool(False), #What does this do?
+    TTRHBuilder = cms.string('WithTrackAngle'),
+    updator = cms.string('KFUpdator'),
+    # If true, track building will allow for possibility of no hit
+    # in a given layer, even if it finds compatible hits there.
+    alwaysUseInvalidHits = cms.bool(True),
+    requireSeedHitsInRebuild = cms.bool(False), #(?)
+    keepOriginalIfRebuildFails = cms.bool(True), #(?)
+    estimator = cms.string('L1TrackStepChi2Est'),
+    # Out-in tracking will not be attempted unless this many hits
+    # are on track after in-out tracking phase.
+    minNrOfHitsForRebuild = cms.int32(5),
+    maxDPhiForLooperReconstruction = cms.double(2.0),
+    maxPtForLooperReconstruction = cms.double(0),
+    seedAs5DHit = cms.bool(False) #?
+)
+
+
 L1TrackSeedsFromL1Tracks = cms.EDProducer("SeedGeneratorFromTTracksEDProducer",
     InputCollection = cms.InputTag("TTTracksFromTracklet", "Level1TTTracks"), 
     estimator = cms.string('L1TrackStepChi2Est'),
@@ -1632,10 +1699,44 @@ L1TrackSeedsFromL1Tracks = cms.EDProducer("SeedGeneratorFromTTracksEDProducer",
     maxEtaForTOB = cms.double(1.2), 
     minEtaForTEC = cms.double(0.8),
     TrajectoryBuilder = cms.string('GroupedCkfTrajectoryBuilder'),
-    TrajectoryBuilderPSet = cms.PSet(
-        refToPSet_ = cms.string('L1TrackStepTrajectoryBuilder'),
-    )
+    TrajectoryBuilderPSet = cms.PSet(refToPSet_ = cms.string('L1TrackStepTrajectoryBuilder'))
+    #TrajectoryBuilder = cms.string('GroupedCkfTrajectoryBuilder'),
+    #TrajectoryBuilderPSet = cms.PSet( refToPSet_ = cms.string('L1TrackRegionalStepTrajectoryBuilder'))
 )
+
+# a clone from https://github.com/vberta/cmssw/blob/CMSSW_10_5_0_pre2_trackjet_DeepCore/RecoTracker/CkfPattern/python/CkfTrackCandidates_cfi.py
+# e.g. https://github.com/vberta/cmssw/blob/CMSSW_10_5_0_pre2_trackjet_DeepCore/RecoTracker/IterativeTracking/python/JetCoreRegionalStep_cff.py#L180
+
+L1TrackCandidatesCustom= cms.EDProducer("CkfTrackCandidateMaker",
+    MeasurementTrackerEvent = cms.InputTag("MeasurementTrackerEvent"),
+    NavigationSchool = cms.string('SimpleNavigationSchool'),
+    # During tracking, eliminate seeds used by an already found track 
+    RedundantSeedCleaner = cms.string('CachingSeedCleanerBySharedInput'),
+    # Decide how to eliminate tracks sharing hits at end of tracking phase
+    TrajectoryCleaner = cms.string('TrajectoryCleanerBySharedHits'),
+    # Run cleaning after in-out tracking in addition to at end of tracking ?
+    cleanTrajectoryAfterInOut = cms.bool(True),
+    reverseTrajectories  =cms.bool(False),
+    # Split matched strip tracker hits into mono/stereo components.
+    useHitsSplitting = cms.bool(True),
+    # After in-out tracking, do out-in tracking through the seeding
+    # region and then further in.
+    doSeedingRegionRebuilding = cms.bool(True),
+    # Seed Producer
+    maxNSeeds = cms.uint32(500000),
+    maxSeedsBeforeCleaning = cms.uint32(10000),
+    SimpleMagneticField = cms.string(''),                                    
+    src = cms.InputTag('L1TrackSeedsFromL1Tracks'),
+    alias = cms.string('hltL1CtfTrackCandidatesCustom'),
+    TrajectoryBuilder = cms.string('GroupedCkfTrajectoryBuilder'),
+    TrajectoryBuilderPSet = cms.PSet( refToPSet_ = cms.string('L1TrackRegionalStepTrajectoryBuilder')),
+    TransientInitialStateEstimatorParameters = cms.PSet(
+        numberMeasurementsForFit = cms.int32(4),
+        propagatorAlongTISE = cms.string('PropagatorWithMaterial'),
+        propagatorOppositeTISE = cms.string('PropagatorWithMaterialOpposite')
+    ),
+)
+
 
 L1TrackCandidates = cms.EDProducer("CkfTrackCandidateMaker", 
     MeasurementTrackerEvent = cms.InputTag("MeasurementTrackerEvent"), 
@@ -1678,7 +1779,8 @@ L1CtfTracks = cms.EDProducer( "TrackProducer",
     alias = cms.untracked.string('hltL1CtfTracks'),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     clusterRemovalInfo = cms.InputTag(""),
-    src = cms.InputTag("L1TrackCandidates"),
+    #src = cms.InputTag("L1TrackCandidates"),
+    src = cms.InputTag("L1TrackCandidatesCustom"),
     useHitsSplitting = cms.bool(False),
     useSimpleMF = cms.bool(False)
 )
@@ -2890,7 +2992,8 @@ vertexReco = cms.Sequence(
 
 HLTL1TracksSequence = cms.Sequence(
     L1TrackSeedsFromL1Tracks +
-    L1TrackCandidates + 
+    #L1TrackCandidates + 
+    L1TrackCandidatesCustom +
     L1CtfTracks
 )
 
