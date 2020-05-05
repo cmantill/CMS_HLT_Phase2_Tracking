@@ -6,6 +6,8 @@ trackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 p
     cores = cms.InputTag("highPtJetsForTrk"), #cmssw_10_6    # cmssw_11_1 
     UseAssociators = cms.bool(False),
     associators = cms.untracked.VInputTag("trackingParticleRecoTrackAsssociation"),
+    #UseAssociators = cms.bool(True),
+    #associators = cms.untracked.VInputTag("quickTrackAssociatorByHits"),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     calculateDrSingleCollection = cms.untracked.bool(True),
     chargedOnlyTP = cms.bool(True),
@@ -16,7 +18,10 @@ trackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 p
     doPVAssociationPlots = cms.untracked.bool(True),
     doPlotsOnlyForTruePV = cms.untracked.bool(False),
     doRecoTrackPlots = cms.untracked.bool(True),
-    doResolutionPlotsForLabels = cms.VInputTag("generalTracks", "cutsRecoTracksHp", "generalTracksPt09", "cutsRecoTracksBtvLike"),#,"L1CtfTracks"),
+    doResolutionPlotsForLabels = cms.VInputTag(
+        "cutsRecoTracksL1CtfTracks",
+        #"generalTracks", "cutsRecoTracksHp", "generalTracksPt09", "cutsRecoTracksBtvLike", "cutsRecoTracksL1CtfTracks"), #,"L1CtfTracks"),
+        ),
     doSeedPlots = cms.untracked.bool(False),
     doSimPlots = cms.untracked.bool(True),
     doSimTrackPlots = cms.untracked.bool(True),
@@ -339,12 +344,13 @@ trackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 p
     intimeOnlyTP = cms.bool(True),
     invertRapidityCutTP = cms.bool(False), # cmssw_11_1
     label = cms.VInputTag(
-        "generalTracks", "cutsRecoTracksHp", "cutsRecoTracksInitialStep", "cutsRecoTracksHighPtTripletStep",   "cutsRecoTracksInitialStepHp", "cutsRecoTracksHighPtTripletStepHp",   
-        "cutsRecoTracksInitialStepByOriginalAlgo", "cutsRecoTracksHighPtTripletStepByOriginalAlgo",   "cutsRecoTracksInitialStepByOriginalAlgoHp", "cutsRecoTracksHighPtTripletStepByOriginalAlgoHp", 
-        "generalTracksPt09", "cutsRecoTracksPt09Hp", "cutsRecoTracksBtvLike", "cutsRecoTracksInitialStepByAlgoMask", 
-        "cutsRecoTracksHighPtTripletStepByAlgoMask",  "cutsRecoTracksInitialStepByAlgoMaskHp", "cutsRecoTracksHighPtTripletStepByAlgoMaskHp", 
-        "cutsRecoTracksPt09InitialStep", "cutsRecoTracksPt09HighPtTripletStep", "cutsRecoTracksPt09InitialStepHp", "cutsRecoTracksPt09HighPtTripletStepHp",
-        "L1CtfTracks"
+        # "generalTracks", "cutsRecoTracksHp", "cutsRecoTracksInitialStep", "cutsRecoTracksHighPtTripletStep",   "cutsRecoTracksInitialStepHp", "cutsRecoTracksHighPtTripletStepHp",   
+        # "cutsRecoTracksInitialStepByOriginalAlgo", "cutsRecoTracksHighPtTripletStepByOriginalAlgo",   "cutsRecoTracksInitialStepByOriginalAlgoHp", "cutsRecoTracksHighPtTripletStepByOriginalAlgoHp", 
+        # "generalTracksPt09", "cutsRecoTracksPt09Hp", "cutsRecoTracksBtvLike", "cutsRecoTracksInitialStepByAlgoMask", 
+        # "cutsRecoTracksHighPtTripletStepByAlgoMask",  "cutsRecoTracksInitialStepByAlgoMaskHp", "cutsRecoTracksHighPtTripletStepByAlgoMaskHp", 
+        # "cutsRecoTracksPt09InitialStep", "cutsRecoTracksPt09HighPtTripletStep", "cutsRecoTracksPt09InitialStepHp", "cutsRecoTracksPt09HighPtTripletStepHp",
+        "cutsRecoTracksL1CtfTracks"
+        #"L1CtfTracks"
     ),
     label_pileupinfo = cms.InputTag("addPileupInfo"),
     label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
@@ -369,9 +375,19 @@ trackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 p
     ptMinTP = cms.double(0.005),
     signalOnlyTP = cms.bool(False),
     sim = cms.VInputTag(
-        cms.InputTag("g4SimHits","TrackerHitsPixelBarrelLowTof"), cms.InputTag("g4SimHits","TrackerHitsPixelBarrelHighTof"), cms.InputTag("g4SimHits","TrackerHitsPixelEndcapLowTof"), cms.InputTag("g4SimHits","TrackerHitsPixelEndcapHighTof"), cms.InputTag("g4SimHits","TrackerHitsTIBLowTof"), 
-        cms.InputTag("g4SimHits","TrackerHitsTIBHighTof"), cms.InputTag("g4SimHits","TrackerHitsTIDLowTof"), cms.InputTag("g4SimHits","TrackerHitsTIDHighTof"), cms.InputTag("g4SimHits","TrackerHitsTOBLowTof"), cms.InputTag("g4SimHits","TrackerHitsTOBHighTof"), 
-        cms.InputTag("g4SimHits","TrackerHitsTECLowTof"), cms.InputTag("g4SimHits","TrackerHitsTECHighTof")
+        cms.InputTag("g4SimHits","TrackerHitsPixelBarrelLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsPixelBarrelHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsPixelEndcapLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsPixelEndcapHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIBLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIBHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIDLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIDHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTOBLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTOBHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTECLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTECHighTof")
+        #MCTruthTTTrackHandle
     ),
     simHitTpMapTag = cms.InputTag("simHitTPAssocProducer"),
     simPVMaxZ = cms.untracked.double(-1),
@@ -3379,6 +3395,7 @@ trackValidatorBuilding = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 previ
     invertRapidityCutTP = cms.bool(False), # cmssw_11_1
     label = cms.VInputTag(
         "initialStepTracks", "highPtTripletStepTracks" ### v2
+        "L1CtfTracks",
     ),
     label_pileupinfo = cms.InputTag("addPileupInfo"),
     label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
@@ -3403,9 +3420,18 @@ trackValidatorBuilding = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 previ
     ptMinTP = cms.double(0.005),
     signalOnlyTP = cms.bool(False),
     sim = cms.VInputTag(
-        cms.InputTag("g4SimHits","TrackerHitsPixelBarrelLowTof"), cms.InputTag("g4SimHits","TrackerHitsPixelBarrelHighTof"), cms.InputTag("g4SimHits","TrackerHitsPixelEndcapLowTof"), cms.InputTag("g4SimHits","TrackerHitsPixelEndcapHighTof"), cms.InputTag("g4SimHits","TrackerHitsTIBLowTof"), 
-        cms.InputTag("g4SimHits","TrackerHitsTIBHighTof"), cms.InputTag("g4SimHits","TrackerHitsTIDLowTof"), cms.InputTag("g4SimHits","TrackerHitsTIDHighTof"), cms.InputTag("g4SimHits","TrackerHitsTOBLowTof"), cms.InputTag("g4SimHits","TrackerHitsTOBHighTof"), 
-        cms.InputTag("g4SimHits","TrackerHitsTECLowTof"), cms.InputTag("g4SimHits","TrackerHitsTECHighTof")
+        cms.InputTag("g4SimHits","TrackerHitsPixelBarrelLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsPixelBarrelHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsPixelEndcapLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsPixelEndcapHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIBLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIBHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIDLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTIDHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTOBLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTOBHighTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTECLowTof"), 
+        cms.InputTag("g4SimHits","TrackerHitsTECHighTof")
     ),
     simHitTpMapTag = cms.InputTag("simHitTPAssocProducer"),
     simPVMaxZ = cms.untracked.double(-1),
@@ -3903,7 +3929,6 @@ cutsRecoTracksFromPVHp = cms.EDProducer("RecoTrackViewRefSelector",
     vertexTag = cms.InputTag("offlinePrimaryVertices")
 )
 
-
 cutsRecoTracksFromPVInitialStep = cms.EDProducer("RecoTrackViewRefSelector",
     algorithm = cms.vstring('initialStep'),
     algorithmMaskContains = cms.vstring(),
@@ -4249,6 +4274,29 @@ cutsRecoTracksHp = cms.EDProducer("RecoTrackViewRefSelector",
     vertexTag = cms.InputTag("offlinePrimaryVertices")
 )
 
+cutsRecoTracksL1CtfTracks = cms.EDProducer("RecoTrackViewRefSelector",
+                                           algorithm = cms.vstring('L1CtfTracks'),
+                                           algorithmMaskContains = cms.vstring(),
+                                           beamSpot = cms.InputTag("offlineBeamSpot"),
+                                           invertRapidityCut = cms.bool(False), # cmssw_11_1                                                                                      
+                                           lip = cms.double(300.0),
+                                           maxChi2 = cms.double(10000.0),
+                                           maxPhi = cms.double(3.2),
+                                           maxRapidity = cms.double(4.5),
+                                           min3DLayer = cms.int32(0),
+                                           minHit = cms.int32(0),
+                                           minLayer = cms.int32(0),
+                                           minPhi = cms.double(-3.2),
+                                           minPixelHit = cms.int32(0),
+                                           minRapidity = cms.double(-4.5),
+                                           originalAlgorithm = cms.vstring(),
+                                           ptMin = cms.double(0.1),
+                                           quality = cms.vstring('loose'),
+                                           src = cms.InputTag("generalTracks"),
+                                           tip = cms.double(120),
+                                           usePV = cms.bool(False),
+                                           vertexTag = cms.InputTag("offlinePrimaryVertices")
+)
 
 cutsRecoTracksInitialStep = cms.EDProducer("RecoTrackViewRefSelector",
     algorithm = cms.vstring('initialStep'),
@@ -4639,9 +4687,9 @@ seedTracksinitialStepSeeds = cms.EDProducer("TrackFromSeedProducer",
 )
 
 seedTracksL1TrackSeedsFromL1Tracks = cms.EDProducer("TrackFromSeedProducer",
-                                                    TTRHBuilder = cms.string('WithoutRefit'),
-                                                    beamSpot = cms.InputTag("offlineBeamSpot"),
-                                                    src = cms.InputTag("L1TrackSeedsFromL1Tracks")
+    TTRHBuilder = cms.string('WithoutRefit'),
+    beamSpot = cms.InputTag("offlineBeamSpot"),
+    src = cms.InputTag("L1TrackSeedsFromL1Tracks")
 )
 
 tpClusterProducer = cms.EDProducer("ClusterTPAssociationProducer",
@@ -4666,16 +4714,19 @@ tpClusterProducerPreSplitting = cms.EDProducer("ClusterTPAssociationProducer",
     stripSimLinkSrc = cms.InputTag("simSiStripDigis"),
     trackingParticleSrc = cms.InputTag("mix","MergedTrackTruth")
 )
+
 trackingParticleNumberOfLayersProducer = cms.EDProducer("TrackingParticleNumberOfLayersProducer",
     simHits = cms.VInputTag("g4SimHits:TrackerHitsPixelBarrelLowTof", "g4SimHits:TrackerHitsPixelEndcapLowTof"),
     trackingParticles = cms.InputTag("mix","MergedTrackTruth")
 )
+
 trackingParticleRecoTrackAsssociation = cms.EDProducer("TrackAssociatorEDProducer",
     associator = cms.InputTag("quickTrackAssociatorByHits"),
     ignoremissingtrackcollection = cms.untracked.bool(False),
     label_tp = cms.InputTag("mix","MergedTrackTruth"),
     label_tr = cms.InputTag("generalTracks")
 )
+
 
 trackingParticlesBHadron = cms.EDProducer("TrackingParticleBHadronRefSelector",
     src = cms.InputTag("mix","MergedTrackTruth")
@@ -4733,6 +4784,7 @@ selectedOfflinePrimaryVerticesWithBS = cms.EDFilter("VertexSelector",
     filter = cms.bool(False),
     src = cms.InputTag("offlinePrimaryVerticesWithBS")
 )
+
 simHitTPAssocProducer = cms.EDProducer("SimHitTPAssociationProducer",
     simHitSrc = cms.VInputTag("g4SimHits:TrackerHitsPixelBarrelLowTof", "g4SimHits:TrackerHitsPixelEndcapLowTof"),
     trackingParticleSrc = cms.InputTag("mix","MergedTrackTruth")
@@ -4763,8 +4815,19 @@ vertexAnalysisTrackingOnly = cms.EDProducer("PrimaryVertexAnalyzer4PUSlimmed",
 
 #########################################################################
 
-MC_prevalidation_v2 = cms.Path(cms.Task(VertexAssociatorByPositionAndTracks, cutsRecoTracksBtvLike, cutsRecoTracksFromPVHighPtTripletStep, cutsRecoTracksFromPVHighPtTripletStepHp, cutsRecoTracksFromPVHp, cutsRecoTracksFromPVInitialStep, cutsRecoTracksFromPVInitialStepHp, cutsRecoTracksFromPVPt09HighPtTripletStep, cutsRecoTracksFromPVPt09HighPtTripletStepHp, cutsRecoTracksFromPVPt09Hp, cutsRecoTracksFromPVPt09InitialStep, cutsRecoTracksFromPVPt09InitialStepHp, cutsRecoTracksHighPtTripletStep, cutsRecoTracksHighPtTripletStepByAlgoMask, cutsRecoTracksHighPtTripletStepByAlgoMaskHp, cutsRecoTracksHighPtTripletStepByOriginalAlgo, cutsRecoTracksHighPtTripletStepByOriginalAlgoHp, cutsRecoTracksHighPtTripletStepHp, cutsRecoTracksHp, cutsRecoTracksInitialStep, cutsRecoTracksInitialStepByAlgoMask, cutsRecoTracksInitialStepByAlgoMaskHp, cutsRecoTracksInitialStepByOriginalAlgo, cutsRecoTracksInitialStepByOriginalAlgoHp, cutsRecoTracksInitialStepHp, cutsRecoTracksPt09HighPtTripletStep, cutsRecoTracksPt09HighPtTripletStepHp, cutsRecoTracksPt09Hp, cutsRecoTracksPt09InitialStep, cutsRecoTracksPt09InitialStepHp, generalTracksFromPV, generalTracksFromPVPt09, generalTracksPt09, quickTrackAssociatorByHits, quickTrackAssociatorByHitsPreSplitting, seedTrackshighPtTripletStepSeeds, seedTracksinitialStepSeeds, seedTracksL1TrackSeedsFromL1Tracks, tpClusterProducer, tpClusterProducerPreSplitting, trackingParticleNumberOfLayersProducer, trackingParticleRecoTrackAsssociation, trackingParticlesBHadron, trackingParticlesConversion, trackingParticlesElectron, trackingParticlesSignal), cms.Task(selectedOfflinePrimaryVertices, selectedOfflinePrimaryVerticesWithBS, simHitTPAssocProducer, v0Validator, vertexAnalysisTrackingOnly))
+MC_prevalidation_v2 = cms.Path(cms.Task(
+VertexAssociatorByPositionAndTracks, 
+cutsRecoTracksBtvLike, cutsRecoTracksFromPVHighPtTripletStep, cutsRecoTracksFromPVHighPtTripletStepHp, cutsRecoTracksFromPVHp, cutsRecoTracksFromPVInitialStep, cutsRecoTracksFromPVInitialStepHp, cutsRecoTracksFromPVPt09HighPtTripletStep, cutsRecoTracksFromPVPt09HighPtTripletStepHp, cutsRecoTracksFromPVPt09Hp, cutsRecoTracksFromPVPt09InitialStep, cutsRecoTracksFromPVPt09InitialStepHp, cutsRecoTracksHighPtTripletStep, cutsRecoTracksHighPtTripletStepByAlgoMask, cutsRecoTracksHighPtTripletStepByAlgoMaskHp, cutsRecoTracksHighPtTripletStepByOriginalAlgo, cutsRecoTracksHighPtTripletStepByOriginalAlgoHp, cutsRecoTracksHighPtTripletStepHp, cutsRecoTracksHp, cutsRecoTracksInitialStep, cutsRecoTracksInitialStepByAlgoMask, cutsRecoTracksInitialStepByAlgoMaskHp, cutsRecoTracksInitialStepByOriginalAlgo, cutsRecoTracksInitialStepByOriginalAlgoHp, cutsRecoTracksInitialStepHp, cutsRecoTracksPt09HighPtTripletStep, cutsRecoTracksPt09HighPtTripletStepHp, cutsRecoTracksPt09Hp, cutsRecoTracksPt09InitialStep, cutsRecoTracksPt09InitialStepHp, generalTracksFromPV, generalTracksFromPVPt09, generalTracksPt09, cutsRecoTracksL1CtfTracks, 
+quickTrackAssociatorByHits, quickTrackAssociatorByHitsPreSplitting, 
+seedTrackshighPtTripletStepSeeds, seedTracksinitialStepSeeds, 
+#seedTracksL1TrackSeedsFromL1Tracks, 
+tpClusterProducer, tpClusterProducerPreSplitting, 
+trackingParticleNumberOfLayersProducer, trackingParticleRecoTrackAsssociation,
+ trackingParticlesBHadron, trackingParticlesConversion, trackingParticlesElectron, trackingParticlesSignal), 
+cms.Task(selectedOfflinePrimaryVertices, selectedOfflinePrimaryVerticesWithBS, 
+simHitTPAssocProducer, v0Validator, vertexAnalysisTrackingOnly))
 
-MC_validation_v2 = cms.Path( trackValidatorTrackingOnly +trackValidatorTPPtLess09Standalone+ trackValidatorFromPVStandalone+trackValidatorFromPVAllTPStandalone + trackValidatorAllTPEfficStandalone+trackValidatorBHadronTrackingOnly+trackValidatorSeedingTrackingOnly + trackValidatorSeedingPreSplittingTrackingOnly+trackValidatorBuilding+trackValidatorBuildingPreSplitting) 
+MC_validation_v2 = cms.Path( trackValidatorTrackingOnly + trackValidatorBuilding) 
+# +trackValidatorTPPtLess09Standalone+ trackValidatorFromPVStandalone+trackValidatorFromPVAllTPStandalone + trackValidatorAllTPEfficStandalone+trackValidatorBHadronTrackingOnly+trackValidatorSeedingTrackingOnly + trackValidatorSeedingPreSplittingTrackingOnly+trackValidatorBuilding+trackValidatorBuildingPreSplitting) 
 
 

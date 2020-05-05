@@ -143,7 +143,7 @@ process.DQMStore.enableMultiThread = True
 process.options = cms.untracked.PSet(
     wantSummary = cms.untracked.bool( False )
 )
-process.options.numberOfStreams = cms.untracked.uint32(1)
+process.options.numberOfStreams = cms.untracked.uint32(0)
 process.options.numberOfThreads = cms.untracked.uint32(1)
 
 ### For timing
