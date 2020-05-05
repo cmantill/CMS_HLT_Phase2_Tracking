@@ -1,5 +1,5 @@
 import FWCore.ParameterSet.Config as cms
-############################################  reconstruction_step version v6 ( using pixeltracks/vertices for track selection + pixelhitdoublets/triplets for initialstep seeding )
+############################################  default v6 version ( using pixeltracks/vertices ONLY for track selection) 
 """
 ################################# list of actually needed modules that are in a cms.Path (here for bookkeeping)
 from Configuration.StandardSequences.Reconstruction_cff import TrackProducer 
@@ -1121,6 +1121,7 @@ hltPhase2InitialStepSeedLayers = cms.EDProducer("SeedingLayersEDProducer",
     mightGet = cms.optional.untracked.vstring # cmssw_11_1
 )
 
+
 hltPhase2InitialStepSeeds = cms.EDProducer("SeedCreatorFromRegionConsecutiveHitsTripletOnlyEDProducer",
     MinOneOverPtError = cms.double(1),
     OriginTransverseErrorMultiplier = cms.double(1),
@@ -1138,7 +1139,7 @@ hltPhase2InitialStepSeeds = cms.EDProducer("SeedCreatorFromRegionConsecutiveHits
     magneticField = cms.string(''),
     mightGet = cms.untracked.vstring(''), # pixeltracks previous RegionsSeedingHitSets_initialStepHitQuadruplets__RECO'),
     propagator = cms.string('PropagatorWithMaterial'),
-    seedingHitSets = cms.InputTag("hltPhase2PixelTracksHitQuadruplets")# pixelTracks previous hltPhase2InitialStepHitQuadruplets")
+    seedingHitSets = cms.InputTag("hltPhase2InitialStepHitQuadruplets")
 )
 """
 initialStepSelector = cms.EDProducer("MultiTrackSelector",
