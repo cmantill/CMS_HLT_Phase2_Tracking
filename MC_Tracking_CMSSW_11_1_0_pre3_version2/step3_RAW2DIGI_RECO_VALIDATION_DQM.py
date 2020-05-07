@@ -39,9 +39,6 @@ process.source = cms.Source("PoolSource",
 """
 
 process.load("input_TTbar_Phase2HLTTDRWinter20-PU200_110X_upgrade2026D49_realistic_v3-v2_cff")
-#process.load("input_for_testing_noPU")
-
-
 
 process.options = cms.untracked.PSet(
 )
@@ -123,8 +120,8 @@ process.dqmofflineOnPAT_step = cms.EndPath(process.PostDQMOffline)
 process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)
 """
 process.load('raw2digi_step_cff')
-process.load("MC_Tracking_v2_cff")
-process.load('MC_prevalidation_cff') 
+process.load("MC_Tracking_v6_cff")
+process.load('MC_prevalidation_v6_cff') 
 process.load('MC_Dqmoffline_cff')
 process.DQMoutput_step = cms.EndPath(process.DQMoutput)
 
@@ -151,7 +148,7 @@ process.PixelCPEGenericESProducer.Upgrade = cms.bool(True)
 
 
 # Schedule definition
-process.schedule = cms.Schedule(*[ process.raw2digi_step, process.MC_Tracking_v2, process.MC_Vertexing_v2, process.MC_prevalidation_v2, process.MC_validation_v2, process.MC_Dqmoffline_v2, process.DQMoutput_step ])
+process.schedule = cms.Schedule(*[ process.raw2digi_step, process.MC_Tracking_v6, process.MC_Vertexing_v6, process.MC_prevalidation_v6, process.MC_validation_v6, process.MC_Dqmoffline, process.DQMoutput_step ])
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
