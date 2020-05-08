@@ -51,7 +51,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
     doPVAssociationPlots = cms.untracked.bool(True), # False
     doPlotsOnlyForTruePV = cms.untracked.bool(False),
     doRecoTrackPlots = cms.untracked.bool(True),
-    doResolutionPlotsForLabels = cms.VInputTag(), #?
+    doResolutionPlotsForLabels = cms.VInputTag("hltPhase2L1CtfTracks"),
     doSeedPlots = cms.untracked.bool(False),
     doSimPlots = cms.untracked.bool(True),
     doSimTrackPlots = cms.untracked.bool(True),
@@ -63,7 +63,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         nintdrj = cms.int32(100), #cmssw_10_6
         GpSelectorForEfficiencyVsEta = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2), # cmssw_11_1
             minPhi = cms.double(-3.2), # cmssw_11_1
@@ -76,7 +76,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         GpSelectorForEfficiencyVsPhi = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2), # cmssw_11_1
             minPhi = cms.double(-3.2), # cmssw_11_1
@@ -89,7 +89,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         GpSelectorForEfficiencyVsPt = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2), # cmssw_11_1
             minPhi = cms.double(-3.2), # cmssw_11_1
@@ -102,7 +102,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         GpSelectorForEfficiencyVsVTXR = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2), # cmssw_11_1
             minPhi = cms.double(-3.2), # cmssw_11_1
@@ -115,7 +115,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         GpSelectorForEfficiencyVsVTXZ = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             lip = cms.double(35.0),
             maxPhi = cms.double(3.2), # cmssw_11_1
             minPhi = cms.double(-3.2), # cmssw_11_1
@@ -128,7 +128,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         TpSelectorForEfficiencyVsEta = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             intimeOnly = cms.bool(False),
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2),
@@ -145,7 +145,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         TpSelectorForEfficiencyVsPhi = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             intimeOnly = cms.bool(False),
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2),
@@ -162,7 +162,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         TpSelectorForEfficiencyVsPt = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             intimeOnly = cms.bool(False),
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2),
@@ -179,7 +179,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         TpSelectorForEfficiencyVsVTXR = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             intimeOnly = cms.bool(False),
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2),
@@ -196,7 +196,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         ),
         TpSelectorForEfficiencyVsVTXZ = cms.PSet(
             chargedOnly = cms.bool(True),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             intimeOnly = cms.bool(False),
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2),
@@ -225,7 +225,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         generalGpSelector = cms.PSet(
             chargedOnly = cms.bool(True),
             lip = cms.double(30.0),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             maxPhi = cms.double(3.2), # cmssw_11_1
             minPhi = cms.double(-3.2), # cmssw_11_1
             maxRapidity = cms.double(4.5), #previous 2.5
@@ -238,7 +238,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
         generalTpSelector = cms.PSet(
             chargedOnly = cms.bool(True),
             intimeOnly = cms.bool(False),
-                invertRapidityCut = cms.bool(False), # cmssw_11_1
+            invertRapidityCut = cms.bool(False), # cmssw_11_1
             lip = cms.double(30.0),
             maxPhi = cms.double(3.2),
             maxRapidity = cms.double(4.5),
@@ -405,7 +405,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
     simPVMaxZ = cms.untracked.double(-1),
     stableOnlyTP = cms.bool(False),
     tipTP = cms.double(60.0), 
-    trackCollectionForDrCalculation = cms.InputTag("hltPhase2GeneralTracks"),
+    trackCollectionForDrCalculation = cms.InputTag("hltPhase2L1CtfTracks"),
     useGsf = cms.bool(False),
     useLogPt = cms.untracked.bool(True),
     vertexAssociator = cms.untracked.InputTag("hltPhase2VertexAssociatorByPositionAndTracks")
@@ -414,7 +414,7 @@ hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #c
 hltPhase2TrackValidatorPixelTrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 previous cms.EDAnalyzer
     cores = cms.InputTag(""), #cmssw_10_6
     UseAssociators = cms.bool(False),
-    associators = cms.untracked.VInputTag("hltPhase2TrackingParticlePixelTrackAsssociation"),
+    associators = cms.untracked.VInputTag("hltPhase2TrackingParticlePixelTrackAsssociationa"),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     calculateDrSingleCollection = cms.untracked.bool(True),
     chargedOnlyTP = cms.bool(True),
@@ -791,7 +791,8 @@ hltPhase2TrackValidatorPixelTrackingOnly = cms.EDProducer("MultiTrackValidator",
 hltPhase2TrackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 previous cms.EDAnalyzer
     cores = cms.InputTag("highPtJetsForTrk"), #cmssw_10_6    # cmssw_11_1 
     UseAssociators = cms.bool(False),
-    associators = cms.untracked.VInputTag("hltPhase2TrackingParticleRecoTrackAsssociation"),
+    #associators = cms.untracked.VInputTag("hltPhase2TrackingParticleRecoTrackAsssociation"),
+    associators = cms.untracked.VInputTag("hltPhase2TrackingParticleL1TrackAsssociation"),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     calculateDrSingleCollection = cms.untracked.bool(True),
     chargedOnlyTP = cms.bool(True),
@@ -802,7 +803,11 @@ hltPhase2TrackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cms
     doPVAssociationPlots = cms.untracked.bool(True),
     doPlotsOnlyForTruePV = cms.untracked.bool(False),
     doRecoTrackPlots = cms.untracked.bool(True),
-    doResolutionPlotsForLabels = cms.VInputTag("hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksBtvLike","hltPhase2CutsRecoTracksL1Step"),#,,"hltPhase2L1CtfTracks"),
+    doResolutionPlotsForLabels = cms.VInputTag(
+        #"hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksBtvLike","hltPhase2CutsRecoTracksL1Step"),#,,
+        "hltPhase2L1CtfTracks",
+        #"hltPhase2CutsRecoTracksL1Step",
+    ),
     doSeedPlots = cms.untracked.bool(False),
     doSimPlots = cms.untracked.bool(True),
     doSimTrackPlots = cms.untracked.bool(True),
@@ -1125,13 +1130,13 @@ hltPhase2TrackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cms
     intimeOnlyTP = cms.bool(True),
     invertRapidityCutTP = cms.bool(False), # cmssw_11_1
     label = cms.VInputTag(
-        "hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2CutsRecoTracksInitialStep", "hltPhase2CutsRecoTracksHighPtTripletStep",   		"hltPhase2CutsRecoTracksInitialStepHp", "hltPhase2CutsRecoTracksHighPtTripletStepHp",   
-        "hltPhase2CutsRecoTracksInitialStepByOriginalAlgo", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgo",   	"hltPhase2CutsRecoTracksInitialStepByOriginalAlgoHp","hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgoHp", 
-        "hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksPt09Hp", "hltPhase2CutsRecoTracksBtvLike", "hltPhase2CutsRecoTracksInitialStepByAlgoMask", 
-        "hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMask",  "hltPhase2CutsRecoTracksInitialStepByAlgoMaskHp", "hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMaskHp", 
-        "hltPhase2CutsRecoTracksPt09InitialStep", "hltPhase2CutsRecoTracksPt09HighPtTripletStep", "hltPhase2CutsRecoTracksPt09InitialStepHp", "hltPhase2CutsRecoTracksPt09HighPtTripletStepHp",
-       #"hltPhase2L1CtfTracks",
-        "hltPhase2CutsRecoTracksL1Step",
+        #"hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2CutsRecoTracksInitialStep", "hltPhase2CutsRecoTracksHighPtTripletStep",   		"hltPhase2CutsRecoTracksInitialStepHp", "hltPhase2CutsRecoTracksHighPtTripletStepHp",   
+        #"hltPhase2CutsRecoTracksInitialStepByOriginalAlgo", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgo",   	"hltPhase2CutsRecoTracksInitialStepByOriginalAlgoHp","hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgoHp", 
+        #"hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksPt09Hp", "hltPhase2CutsRecoTracksBtvLike", "hltPhase2CutsRecoTracksInitialStepByAlgoMask", 
+        #"hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMask",  "hltPhase2CutsRecoTracksInitialStepByAlgoMaskHp", "hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMaskHp", 
+        #"hltPhase2CutsRecoTracksPt09InitialStep", "hltPhase2CutsRecoTracksPt09HighPtTripletStep", "hltPhase2CutsRecoTracksPt09InitialStepHp", "hltPhase2CutsRecoTracksPt09HighPtTripletStepHp",
+        "hltPhase2L1CtfTracks",
+        #"hltPhase2CutsRecoTracksL1Step",
     ),
     label_pileupinfo = cms.InputTag("addPileupInfo"),
     label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
@@ -1164,7 +1169,8 @@ hltPhase2TrackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cms
     simPVMaxZ = cms.untracked.double(-1),
     stableOnlyTP = cms.bool(False),
     tipTP = cms.double(60.0), 
-    trackCollectionForDrCalculation = cms.InputTag("hltPhase2GeneralTracks"),
+    #trackCollectionForDrCalculation = cms.InputTag("hltPhase2GeneralTracks"),
+    trackCollectionForDrCalculation = cms.InputTag("hltPhase2L1CtfTracks"),
     useGsf = cms.bool(False),
     useLogPt = cms.untracked.bool(True),
     vertexAssociator = cms.untracked.InputTag("hltPhase2VertexAssociatorByPositionAndTracks")
@@ -3463,6 +3469,17 @@ hltPhase2VertexAssociatorByPositionAndTracks = cms.EDProducer("VertexAssociatorB
     trackAssociation = cms.InputTag("hltPhase2TrackingParticleRecoTrackAsssociation")
 )
 
+hltPhase2VertexAssociatorByPositionAndL1Tracks = cms.EDProducer("VertexAssociatorByPositionAndTracksProducer",
+    absT = cms.double(-1),
+    absZ = cms.double(0.1),
+    maxRecoT = cms.double(-1),
+    maxRecoZ = cms.double(1000),
+    sharedTrackFraction = cms.double(-1),
+    sigmaT = cms.double(-1),
+    sigmaZ = cms.double(3),
+    trackAssociation = cms.InputTag("hltPhase2TrackingParticleL1TrackAsssociation")
+)
+
 
 hltPhase2CutsRecoTracksBtvLike = cms.EDProducer("RecoTrackViewRefSelector",
     algorithm = cms.vstring(),
@@ -4396,6 +4413,7 @@ hltPhase2PixelVertexAnalysisTrackingOnly = cms.EDProducer("PrimaryVertexAnalyzer
 
 MC_prevalidation_v6 = cms.Path(
     cms.Task(hltPhase2VertexAssociatorByPositionAndTracks, 
+             hltPhase2VertexAssociatorByPositionAndL1Tracks,
              hltPhase2CutsRecoTracksBtvLike, 
              hltPhase2CutsRecoTracksFromPVHighPtTripletStep, hltPhase2CutsRecoTracksFromPVHighPtTripletStepHp, hltPhase2CutsRecoTracksFromPVHp, hltPhase2CutsRecoTracksFromPVInitialStep, hltPhase2CutsRecoTracksFromPVInitialStepHp, 
              hltPhase2CutsRecoTracksL1Step,
