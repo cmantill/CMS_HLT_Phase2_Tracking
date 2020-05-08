@@ -28,10 +28,19 @@ hltPhase2TrackingParticlePixelTrackAsssociation = cms.EDProducer("TrackAssociato
     label_tr = cms.InputTag("hltPhase2PixelTracks")
 )
 
+hltPhase2TrackingParticleL1TrackAsssociation = cms.EDProducer("TrackAssociatorEDProducer",
+    associator = cms.InputTag("quickTrackAssociatorByHits"),
+    ignoremissingtrackcollection = cms.untracked.bool(False),
+    label_tp = cms.InputTag("mix","MergedTrackTruth"),
+    label_tr = cms.InputTag("hltPhase2L1CtfTracks"),
+)
+
 hltPhase2TrackValidatorL1TrackingOnly = cms.EDProducer("MultiTrackValidator", #cmssw_11_1 previous cms.EDAnalyzer
     cores = cms.InputTag(""), #cmssw_10_6
-    UseAssociators = cms.bool(True),
-    associators = cms.untracked.VInputTag("quickTrackAssociatorByHits"),
+    # UseAssociators = cms.bool(True),
+    # associators = cms.untracked.VInputTag("quickTrackAssociatorByHits"),
+    UseAssociators = cms.bool(False),
+    associators = cms.untracked.VInputTag("hltPhase2TrackingParticleL1TrackAsssociation"),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     calculateDrSingleCollection = cms.untracked.bool(True),
     chargedOnlyTP = cms.bool(True),
@@ -793,7 +802,7 @@ hltPhase2TrackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cms
     doPVAssociationPlots = cms.untracked.bool(True),
     doPlotsOnlyForTruePV = cms.untracked.bool(False),
     doRecoTrackPlots = cms.untracked.bool(True),
-    doResolutionPlotsForLabels = cms.VInputTag("hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksBtvLike"),
+    doResolutionPlotsForLabels = cms.VInputTag("hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksBtvLike","hltPhase2CutsRecoTracksL1Step"),#,,"hltPhase2L1CtfTracks"),
     doSeedPlots = cms.untracked.bool(False),
     doSimPlots = cms.untracked.bool(True),
     doSimTrackPlots = cms.untracked.bool(True),
@@ -1120,7 +1129,9 @@ hltPhase2TrackValidatorTrackingOnly = cms.EDProducer("MultiTrackValidator", #cms
         "hltPhase2CutsRecoTracksInitialStepByOriginalAlgo", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgo",   	"hltPhase2CutsRecoTracksInitialStepByOriginalAlgoHp","hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgoHp", 
         "hltPhase2GeneralTracksPt09", "hltPhase2CutsRecoTracksPt09Hp", "hltPhase2CutsRecoTracksBtvLike", "hltPhase2CutsRecoTracksInitialStepByAlgoMask", 
         "hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMask",  "hltPhase2CutsRecoTracksInitialStepByAlgoMaskHp", "hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMaskHp", 
-        "hltPhase2CutsRecoTracksPt09InitialStep", "hltPhase2CutsRecoTracksPt09HighPtTripletStep", "hltPhase2CutsRecoTracksPt09InitialStepHp", "hltPhase2CutsRecoTracksPt09HighPtTripletStepHp"
+        "hltPhase2CutsRecoTracksPt09InitialStep", "hltPhase2CutsRecoTracksPt09HighPtTripletStep", "hltPhase2CutsRecoTracksPt09InitialStepHp", "hltPhase2CutsRecoTracksPt09HighPtTripletStepHp",
+       #"hltPhase2L1CtfTracks",
+        "hltPhase2CutsRecoTracksL1Step",
     ),
     label_pileupinfo = cms.InputTag("addPileupInfo"),
     label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
@@ -2642,7 +2653,8 @@ hltPhase2TrackValidatorAllTPEfficStandalone = cms.EDProducer("MultiTrackValidato
     label = cms.VInputTag(
         "hltPhase2GeneralTracks", "hltPhase2CutsRecoTracksHp", "hltPhase2CutsRecoTracksInitialStep", "hltPhase2CutsRecoTracksHighPtTripletStep", 
         "hltPhase2CutsRecoTracksInitialStepHp", "hltPhase2CutsRecoTracksHighPtTripletStepHp", 
-        "hltPhase2CutsRecoTracksInitialStepByOriginalAlgo", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgo",  "hltPhase2CutsRecoTracksInitialStepByOriginalAlgoHp", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgoHp"
+        "hltPhase2CutsRecoTracksInitialStepByOriginalAlgo", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgo",  "hltPhase2CutsRecoTracksInitialStepByOriginalAlgoHp", "hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgoHp",
+        #"hltPhase2L1CtfTracks",
     ),
     label_pileupinfo = cms.InputTag("addPileupInfo"),
     label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
@@ -4046,6 +4058,29 @@ hltPhase2CutsRecoTracksInitialStepHp = cms.EDProducer("RecoTrackViewRefSelector"
     vertexTag = cms.InputTag("hltPhase2OfflinePrimaryVertices")
 )
 
+hltPhase2CutsRecoTracksL1Step = cms.EDProducer("RecoTrackViewRefSelector",
+    algorithm = cms.vstring('hltPhase2L1CtfTracksStep'),
+    algorithmMaskContains = cms.vstring(),
+    beamSpot = cms.InputTag("offlineBeamSpot"),
+    invertRapidityCut = cms.bool(False), # cmssw_11_1                                                                                                                             
+    lip = cms.double(300.0),
+    maxChi2 = cms.double(10000),
+    maxPhi = cms.double(3.2),
+    maxRapidity = cms.double(4.5),
+    min3DLayer = cms.int32(0),
+    minHit = cms.int32(0),
+    minLayer = cms.int32(3),
+    minPhi = cms.double(-3.2),
+    minPixelHit = cms.int32(0),
+    minRapidity = cms.double(-4.5),
+    originalAlgorithm = cms.vstring(),
+    ptMin = cms.double(0.0), # previous 0.1                                                                                                                                      
+    quality = cms.vstring('loose'),
+    src = cms.InputTag("hltPhase2L1CtfTracks"),
+    tip = cms.double(120),
+    usePV = cms.bool(False),
+    vertexTag = cms.InputTag("hltPhase2OfflinePrimaryVertices")
+)
 
 hltPhase2CutsRecoTracksPt09HighPtTripletStep = cms.EDProducer("RecoTrackViewRefSelector",
     algorithm = cms.vstring('highPtTripletStep'),
@@ -4363,6 +4398,7 @@ MC_prevalidation_v6 = cms.Path(
     cms.Task(hltPhase2VertexAssociatorByPositionAndTracks, 
              hltPhase2CutsRecoTracksBtvLike, 
              hltPhase2CutsRecoTracksFromPVHighPtTripletStep, hltPhase2CutsRecoTracksFromPVHighPtTripletStepHp, hltPhase2CutsRecoTracksFromPVHp, hltPhase2CutsRecoTracksFromPVInitialStep, hltPhase2CutsRecoTracksFromPVInitialStepHp, 
+             hltPhase2CutsRecoTracksL1Step,
              hltPhase2CutsRecoTracksFromPVPt09HighPtTripletStep, hltPhase2CutsRecoTracksFromPVPt09HighPtTripletStepHp, hltPhase2CutsRecoTracksFromPVPt09Hp, hltPhase2CutsRecoTracksFromPVPt09InitialStep, hltPhase2CutsRecoTracksFromPVPt09InitialStepHp, 
              hltPhase2CutsRecoTracksHighPtTripletStep, hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMask, hltPhase2CutsRecoTracksHighPtTripletStepByAlgoMaskHp, hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgo, hltPhase2CutsRecoTracksHighPtTripletStepByOriginalAlgoHp, hltPhase2CutsRecoTracksHighPtTripletStepHp, 
              hltPhase2CutsRecoTracksHp, hltPhase2CutsRecoTracksInitialStep, hltPhase2CutsRecoTracksInitialStepByAlgoMask, hltPhase2CutsRecoTracksInitialStepByAlgoMaskHp, hltPhase2CutsRecoTracksInitialStepByOriginalAlgo, hltPhase2CutsRecoTracksInitialStepByOriginalAlgoHp, hltPhase2CutsRecoTracksInitialStepHp, 
@@ -4375,18 +4411,18 @@ MC_prevalidation_v6 = cms.Path(
              trackingParticlesBHadron, trackingParticlesConversion, 
              hltPhase2TrackingParticlesElectron, hltPhase2TrackingParticlesSignal), 
     cms.Task(hltPhase2SelectedOfflinePrimaryVertices, hltPhase2SelectedOfflinePrimaryVerticesWithBS, simHitTPAssocProducer, hltPhase2V0Validator, hltPhase2VertexAnalysisTrackingOnly), 
-    cms.Task(hltPhase2PixelVertexAssociatorByPositionAndTracks, hltPhase2TrackingParticlePixelTrackAsssociation, hltPhase2SelectedPixelVertices, hltPhase2PixelVertexAnalysisTrackingOnly)
+    cms.Task(hltPhase2PixelVertexAssociatorByPositionAndTracks, hltPhase2TrackingParticleL1TrackAsssociation, hltPhase2TrackingParticlePixelTrackAsssociation, hltPhase2SelectedPixelVertices, hltPhase2PixelVertexAnalysisTrackingOnly)
 ) ### pixelVertices last cms.Task
 
-MC_validation_v6 = cms.Path( hltPhase2TrackValidatorL1TrackingOnly 
-                             # hltPhase2TrackValidatorPixelTrackingOnly + 
-                             # hltPhase2TrackValidatorTrackingOnly + 
-                             # hltPhase2TrackValidatorTPPtLess09Standalone+ 
-                             # hltPhase2TrackValidatorFromPVStandalone + 
-                             # hltPhase2TrackValidatorFromPVAllTPStandalone + 
-                             # hltPhase2TrackValidatorAllTPEfficStandalone + 
-                             # hltPhase2TrackValidatorBHadronTrackingOnly + 
-                             # hltPhase2TrackValidatorSeedingTrackingOnly
-)# + trackValidatorSeedingPreSplittingTrackingOnly+trackValidatorBuilding+trackValidatorBuildingPreSplitting) 
+MC_validation_v6 = cms.Path( hltPhase2TrackValidatorL1TrackingOnly  +
+                             #hltPhase2TrackValidatorPixelTrackingOnly + 
+                             hltPhase2TrackValidatorTrackingOnly 
+                             #hltPhase2TrackValidatorTPPtLess09Standalone+ 
+                             #hltPhase2TrackValidatorFromPVStandalone + 
+                             #hltPhase2TrackValidatorFromPVAllTPStandalone + 
+                             #hltPhase2TrackValidatorAllTPEfficStandalone 
+                             #hltPhase2TrackValidatorBHadronTrackingOnly + 
+                             #hltPhase2TrackValidatorSeedingTrackingOnly
+)
 
 
