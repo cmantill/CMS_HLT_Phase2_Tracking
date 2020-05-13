@@ -38,7 +38,7 @@ process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring()
 )
 """
-"""
+
 import FWCore.Utilities.FileUtils as FileUtils
 import os
 def getTxtFile(txtFileName):
@@ -52,9 +52,9 @@ process.source = cms.Source("PoolSource",
                               'drop l1tEMTFTrack2016*_*_*_*'
                               )
                             )
-"""
-process.load("input_TTbar_Phase2HLTTDRWinter20-PU200_110X_upgrade2026D49_realistic_v3-v2_cff")
 
+#process.load("input_TTbar_Phase2HLTTDRWinter20-PU200_110X_upgrade2026D49_realistic_v3-v2_cff")
+""
 process.options = cms.untracked.PSet(
 )
 """
@@ -99,10 +99,10 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     #    dataTier = cms.untracked.string('GEN-SIM-RECO'),
     #    filterName = cms.untracked.string('')
                                          #),
-    fileName = cms.untracked.string('file:step3.root'),
+    fileName = cms.untracked.string('file:step3_test.root'),
     #outputCommands = process.RECOSIMEventContent.outputCommands,
     outputCommands = cms.untracked.vstring('drop *',
-                                           'keep *_TTTrack*_Level1TTTracks_*'),
+                                           ), #'keep *_TTTrack*_Level1TTTracks_*'),
     splitLevel = cms.untracked.int32(0)
 )
 
@@ -111,7 +111,7 @@ process.DQMoutput = cms.OutputModule("DQMRootOutputModule",
         dataTier = cms.untracked.string('DQMIO'),
         filterName = cms.untracked.string('')
     ),
-    fileName = cms.untracked.string('file:step3_inDQM.root'),
+    fileName = cms.untracked.string('file:step3_inDQM_test.root'),
     outputCommands = process.DQMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -139,7 +139,8 @@ process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)
 process.load('raw2digi_step_cff')
 process.load("L1Trigger.TrackFindingTracklet.Tracklet_cfi")
 process.load("RecoVertex.BeamSpotProducer.BeamSpot_cfi")
-process.TTTracks_step = cms.Path(process.offlineBeamSpot*process.TTTracksFromTracklet)
+#process.TTTracks_step = cms.Path(process.offlineBeamSpot*process.TTTracksFromTracklet)
+process.TTTracks_step = cms.Path(process.offlineBeamSpot*process.TTTracksFromTrackletEmulation)
 process.load("MC_Tracking_v6_cff")
 process.load('MC_prevalidation_v6_cff') 
 process.load('MC_Dqmoffline_cff')
@@ -172,7 +173,7 @@ process.PixelCPEGenericESProducer.Upgrade = cms.bool(True)
 
 
 # Schedule definition
-process.schedule = cms.Schedule(*[ process.raw2digi_step, process.TTTracks_step, process.MC_Tracking_v6, process.MC_Vertexing_v6, process.MC_prevalidation_v6, process.MC_validation_v6, process.MC_Dqmoffline, process.RECOSIMoutput_step, process.DQMoutput_step ])
+process.schedule = cms.Schedule(*[ process.raw2digi_step, process.TTTracks_step, process.MC_Tracking_v6, process.MC_Vertexing_v6, process.MC_prevalidation_v6, process.MC_validation_v6, process.MC_Dqmoffline, process.DQMoutput_step ]) #process.RECOSIMoutput_step])
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
