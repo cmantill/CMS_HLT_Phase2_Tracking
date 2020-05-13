@@ -703,7 +703,8 @@ hltPhase2L1TrackRegionalStepTrajectoryBuilder =  cms.PSet(
 )
 
 hltPhase2L1TrackSeedsFromL1Tracks = cms.EDProducer("SeedGeneratorFromTTracksEDProducer",
-    InputCollection = cms.InputTag("TTTracksFromTracklet", "Level1TTTracks"), 
+    #InputCollection = cms.InputTag("TTTracksFromTracklet", "Level1TTTracks"), 
+    InputCollection = cms.InputTag("TTTracksFromTrackletEmulation", "Level1TTTracks"),
     estimator = cms.string('hltPhase2L1TrackStepChi2Est'),
     propagator = cms.string('PropagatorWithMaterial'),
     MeasurementTrackerEvent = cms.InputTag("MeasurementTrackerEvent"),
