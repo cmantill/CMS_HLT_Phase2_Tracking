@@ -26,7 +26,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100),
+    input = cms.untracked.int32(1000),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
@@ -93,25 +93,12 @@ process.configurationMetadata = cms.untracked.PSet(
 )
 
 # Output definition
-
-process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
-    #dataset = cms.untracked.PSet(
-    #    dataTier = cms.untracked.string('GEN-SIM-RECO'),
-    #    filterName = cms.untracked.string('')
-                                         #),
-    fileName = cms.untracked.string('file:step3.root'),
-    #outputCommands = process.RECOSIMEventContent.outputCommands,
-    outputCommands = cms.untracked.vstring('drop *',
-                                           'keep *_TTTrack*_Level1TTTracks_*'),
-    splitLevel = cms.untracked.int32(0)
-)
-
 process.DQMoutput = cms.OutputModule("DQMRootOutputModule",
     dataset = cms.untracked.PSet(
         dataTier = cms.untracked.string('DQMIO'),
         filterName = cms.untracked.string('')
     ),
-    fileName = cms.untracked.string('file:step3_inDQM.root'),
+    fileName = cms.untracked.string('file:step3_inDQM_testTiming.root'),
     outputCommands = process.DQMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -139,12 +126,11 @@ process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)
 process.load('raw2digi_step_cff')
 process.load("L1Trigger.TrackFindingTracklet.Tracklet_cfi")
 process.load("RecoVertex.BeamSpotProducer.BeamSpot_cfi")
-process.TTTracks_step = cms.Path(process.offlineBeamSpot*process.TTTracksFromTracklet)
+process.TTTracks_step = cms.Path(process.offlineBeamSpot*process.TTTracksFromTrackletEmulation)
 process.load("MC_Tracking_v6_cff")
 process.load('MC_prevalidation_v6_cff') 
 process.load('MC_Dqmoffline_cff')
-process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)
-process.DQMoutput_step = cms.EndPath(process.DQMoutput)
+#process.DQMoutput_step = cms.EndPath(process.DQMoutput)
 
 # load the DQMStore and DQMRootOutputModule
 # enable multithreading
@@ -152,13 +138,55 @@ process.load( "DQMServices.Core.DQMStore_cfi" )
 process.DQMStore.enableMultiThread = True
 
 process.options = cms.untracked.PSet(
-    wantSummary = cms.untracked.bool( False )
+    wantSummary = cms.untracked.bool( True )
 )
-#process.options.numberOfStreams = cms.untracked.uint32(8)
-#process.options.numberOfThreads = cms.untracked.uint32(8)
-process.options.numberOfStreams = cms.untracked.uint32(1)
-process.options.numberOfThreads = cms.untracked.uint32(1)
+process.options.numberOfStreams = cms.untracked.uint32(8)
+process.options.numberOfThreads = cms.untracked.uint32(8)
 
+### For timing
+### Tracking @ HLT: set up FastTimerService; analogous setting can be obtained with option --timing in hltGetConfiguration
+# configure the FastTimerService
+process.load( "HLTrigger.Timer.FastTimerService_cfi" )
+# print a text summary at the end of the job
+process.FastTimerService.printEventSummary         = False
+process.FastTimerService.printRunSummary           = False
+process.FastTimerService.printJobSummary           = True
+
+
+# enable DQM plots
+process.FastTimerService.enableDQM                 = True
+
+# enable per-path DQM plots (starting with CMSSW 9.2.3-patch2)
+process.FastTimerService.enableDQMbyPath           = True
+
+# enable per-module DQM plots
+process.FastTimerService.enableDQMbyModule         = True
+
+# enable per-event DQM plots vs lumisection
+process.FastTimerService.enableDQMbyLumiSection    = True
+process.FastTimerService.dqmLumiSectionsRange      = 2500
+
+# set the time resolution of the DQM plots
+process.FastTimerService.dqmTimeRange              = 100000.
+process.FastTimerService.dqmTimeResolution         =    0.5
+process.FastTimerService.dqmPathTimeRange          = 100000.
+process.FastTimerService.dqmPathTimeResolution     =    0.5
+process.FastTimerService.dqmModuleTimeRange        =   8000.
+process.FastTimerService.dqmModuleTimeResolution   =    0.5
+
+process.FastTimerService.dqmMemoryRange            = 1000000
+process.FastTimerService.dqmMemoryResolution       =    5000
+process.FastTimerService.dqmPathMemoryRange        = 1000000
+process.FastTimerService.dqmPathMemoryResolution   =    5000
+process.FastTimerService.dqmModuleMemoryRange      =  100000
+process.FastTimerService.dqmModuleMemoryResolution =     500
+
+# set the base DQM folder for the plots
+process.FastTimerService.dqmPath                   = 'HLT/TimerService'
+process.FastTimerService.enableDQMbyProcesses      = False
+
+#process.FastTimerOutput = cms.EndPath( process.dqmOutput )
+process.DQMoutput_step = cms.EndPath( process.DQMoutput) 
 
 ###### PixelCPE issue
 process.TrackProducer.TTRHBuilder = "WithTrackAngle"
@@ -172,7 +200,7 @@ process.PixelCPEGenericESProducer.Upgrade = cms.bool(True)
 
 
 # Schedule definition
-process.schedule = cms.Schedule(*[ process.raw2digi_step, process.TTTracks_step, process.MC_Tracking_v6, process.MC_Vertexing_v6, process.MC_prevalidation_v6, process.MC_validation_v6, process.MC_Dqmoffline, process.RECOSIMoutput_step, process.DQMoutput_step ])
+process.schedule = cms.Schedule(*[ process.raw2digi_step, process.TTTracks_step, process.MC_Tracking_v6, process.MC_Vertexing_v6, process.MC_prevalidation_v6, process.MC_validation_v6, process.MC_Dqmoffline, process.DQMoutput_step])
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 

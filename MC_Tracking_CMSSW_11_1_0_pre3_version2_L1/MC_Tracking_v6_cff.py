@@ -572,86 +572,19 @@ hltPhase2L1TrackStepChi2Est = cms.ESProducer("Chi2ChargeMeasurementEstimatorESPr
 )
 
 hltPhase2L1TrackStepTrajectoryFilter = cms.PSet(
-    ComponentType = cms.string('CompositeTrajectoryFilter'),
-    filters = cms.VPSet(
-        cms.PSet(
-            refToPSet_ = cms.string('hltPhase2L1TrackStepTrajectoryFilterBase')
-        ),
-        cms.PSet(
-            refToPSet_ = cms.string('ClusterShapeTrajectoryFilter')
-        )
-    )
-)
-
-hltPhase2L1TrackStepTrajectoryFilterBase = cms.PSet(
     ComponentType = cms.string('CkfBaseTrajectoryFilter'),
+    minimumNumberOfHits = cms.int32(2), #3                                                                                                                                                                                                                                                                               
+    seedPairPenalty = cms.int32(0),
     chargeSignificance = cms.double(-1.0),
+    minPt = cms.double(0.9), #0.1                                                                                                                                                                                                                                                                                        
+    nSigmaMinPt = cms.double(5.0),
+    minHitsMinPt = cms.int32(3),
+    maxLostHits = cms.int32(999),
+    maxConsecLostHits = cms.int32(2), #1                                                                                                                                                                                                                                                                                
+    maxNumberOfHits = cms.int32(100),
+
+    maxLostHitsFraction = cms.double(1.1), #0.1                                                                                                                                                                                                                                                                          
     constantValueForLostHitsFractionFilter = cms.double(2.0),
-    extraNumberOfHitsBeforeTheFirstLoop = cms.int32(4),
-    maxCCCLostHits = cms.int32(9999),
-    maxConsecLostHits = cms.int32(1),
-    maxLostHits = cms.int32(999),
-    maxLostHitsFraction = cms.double(0.1),
-    maxNumberOfHits = cms.int32(100),
-    minGoodStripCharge = cms.PSet(
-        refToPSet_ = cms.string('SiStripClusterChargeCutNone')
-    ),
-    minHitsMinPt = cms.int32(3),
-    minNumberOfHitsForLoopers = cms.int32(13),
-    minNumberOfHitsPerLoop = cms.int32(4),
-    minPt = cms.double(0.2),
-    minimumNumberOfHits = cms.int32(3),
-    nSigmaMinPt = cms.double(5.0),
-    pixelSeedExtension = cms.bool(False),
-    seedExtension = cms.int32(0),
-    seedPairPenalty = cms.int32(0),
-    strictSeedExtension = cms.bool(False)
-)
-
-hltPhase2L1TrackStepTrajectoryBuilder = cms.PSet(
-    ComponentType = cms.string('GroupedCkfTrajectoryBuilder'),
-    MeasurementTrackerName = cms.string(''),
-    TTRHBuilder = cms.string('WithTrackAngle'),
-    alwaysUseInvalidHits = cms.bool(True),
-    bestHitOnly = cms.bool(True),
-    estimator = cms.string('hltPhase2L1TrackStepChi2Est'),
-    foundHitBonus = cms.double(10.0),
-    inOutTrajectoryFilter = cms.PSet(
-        refToPSet_ = cms.string('CkfBaseTrajectoryFilter_block')
-    ),
-    intermediateCleaning = cms.bool(True),
-    keepOriginalIfRebuildFails = cms.bool(False),
-    lockHits = cms.bool(True),
-    lostHitPenalty = cms.double(30.0),
-    maxCand = cms.int32(3),
-    maxDPhiForLooperReconstruction = cms.double(2.0),
-    maxPtForLooperReconstruction = cms.double(0.7),
-    minNrOfHitsForRebuild = cms.int32(5),
-    propagatorAlong = cms.string('PropagatorWithMaterial'),
-    propagatorOpposite = cms.string('PropagatorWithMaterialOpposite'),
-    requireSeedHitsInRebuild = cms.bool(True),
-    seedAs5DHit = cms.bool(True), #try this?
-    trajectoryFilter = cms.PSet(
-        refToPSet_ = cms.string('hltPhase2L1TrackStepTrajectoryFilter')
-    ),
-    updator = cms.string('KFUpdator'),
-    useSameTrajFilter = cms.bool(False)
-)
-
-hltPhase2L1TrackRegionalStepTrajectoryFilter = cms.PSet(
-    ComponentType = cms.string('CkfBaseTrajectoryFilter'),
-    minimumNumberOfHits = cms.int32(2),
-    seedPairPenalty = cms.int32(0),
-    chargeSignificance = cms.double(-1.0),
-    minPt = cms.double(0.9),
-    nSigmaMinPt = cms.double(5.0),
-    minHitsMinPt = cms.int32(3),
-    maxLostHits = cms.int32(999),
-    maxConsecLostHits = cms.int32(2),
-    maxNumberOfHits = cms.int32(100),
-
-    maxLostHitsFraction = cms.double(1.1),
-    constantValueForLostHitsFractionFilter = cms.double(2.),
 
     seedExtension = cms.int32(0),
     strictSeedExtension = cms.bool(False),
@@ -667,12 +600,12 @@ hltPhase2L1TrackRegionalStepTrajectoryFilter = cms.PSet(
     ),
 )
 
-hltPhase2L1TrackRegionalStepTrajectoryBuilder =  cms.PSet(
+hltPhase2L1TrackStepTrajectoryBuilder =  cms.PSet(
     ComponentType = cms.string('GroupedCkfTrajectoryBuilder'),
     bestHitOnly = cms.bool(True),
     propagatorAlong = cms.string('PropagatorWithMaterial'),
     propagatorOpposite = cms.string('PropagatorWithMaterialOpposite'),
-    trajectoryFilter = cms.PSet(refToPSet_ = cms.string('hltPhase2L1TrackRegionalStepTrajectoryFilter')),
+    trajectoryFilter = cms.PSet(refToPSet_ = cms.string('hltPhase2L1TrackStepTrajectoryFilter')),
     inOutTrajectoryFilter = cms.PSet(refToPSet_ = cms.string('CkfBaseTrajectoryFilter_block')),
     # If true, then the inOutTrajectoryFilter will be ignored
     # and the trajectoryFilter will be used for in-out tracking too.
@@ -703,19 +636,15 @@ hltPhase2L1TrackRegionalStepTrajectoryBuilder =  cms.PSet(
 )
 
 hltPhase2L1TrackSeedsFromL1Tracks = cms.EDProducer("SeedGeneratorFromTTracksEDProducer",
-    #InputCollection = cms.InputTag("TTTracksFromTracklet", "Level1TTTracks"), 
     InputCollection = cms.InputTag("TTTracksFromTrackletEmulation", "Level1TTTracks"),
     estimator = cms.string('hltPhase2L1TrackStepChi2Est'),
     propagator = cms.string('PropagatorWithMaterial'),
     MeasurementTrackerEvent = cms.InputTag("MeasurementTrackerEvent"),
     maxEtaForTOB = cms.double(1.2), 
     minEtaForTEC = cms.double(0.8),
-    # for testing
-    TrajectoryBuilder = cms.string('GroupedCkfTrajectoryBuilder'),
-    TrajectoryBuilderPSet = cms.PSet( refToPSet_ = cms.string('hltPhase2L1TrackRegionalStepTrajectoryBuilder'))
 )
 
-hltPhase2L1TrackCandidatesCustom= cms.EDProducer("CkfTrackCandidateMaker",
+hltPhase2L1TrackCandidates = cms.EDProducer("CkfTrackCandidateMaker",
     MeasurementTrackerEvent = cms.InputTag("MeasurementTrackerEvent"),
     NavigationSchool = cms.string('SimpleNavigationSchool'),
     # During tracking, eliminate seeds used by an already found track 
@@ -735,9 +664,9 @@ hltPhase2L1TrackCandidatesCustom= cms.EDProducer("CkfTrackCandidateMaker",
     maxSeedsBeforeCleaning = cms.uint32(10000),
     SimpleMagneticField = cms.string(''),                                    
     src = cms.InputTag('hltPhase2L1TrackSeedsFromL1Tracks'),
-    alias = cms.string('hltPhase2L1CtfTrackCandidatesCustom'),
+    alias = cms.string('hltPhase2L1CtfTrackCandidates'),
     TrajectoryBuilder = cms.string('GroupedCkfTrajectoryBuilder'),
-    TrajectoryBuilderPSet = cms.PSet( refToPSet_ = cms.string('hltPhase2L1TrackRegionalStepTrajectoryBuilder')),
+    TrajectoryBuilderPSet = cms.PSet( refToPSet_ = cms.string('hltPhase2L1TrackStepTrajectoryBuilder')),
     TransientInitialStateEstimatorParameters = cms.PSet(
         numberMeasurementsForFit = cms.int32(4),
         propagatorAlongTISE = cms.string('PropagatorWithMaterial'),
@@ -759,7 +688,7 @@ hltPhase2L1CtfTracks = cms.EDProducer( "TrackProducer",
     alias = cms.untracked.string('hltPhase2L1CtfTracks'),
     beamSpot = cms.InputTag("offlineBeamSpot"),
     clusterRemovalInfo = cms.InputTag(""),
-    src = cms.InputTag("hltPhase2L1TrackCandidatesCustom"),
+    src = cms.InputTag("hltPhase2L1TrackCandidates"),
     useHitsSplitting = cms.bool(False),
     useSimpleMF = cms.bool(False)
 )
@@ -1653,7 +1582,7 @@ otLocalReco = cms.Sequence(
 
 hltPhase2L1TracksSequence = cms.Sequence(
     hltPhase2L1TrackSeedsFromL1Tracks +
-    hltPhase2L1TrackCandidatesCustom +
+    hltPhase2L1TrackCandidates +
     hltPhase2L1CtfTracks
 )
 
